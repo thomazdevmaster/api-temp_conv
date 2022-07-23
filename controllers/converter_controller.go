@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -9,13 +8,12 @@ import (
 )
 
 func Converte(c *gin.Context) {
-	// Recebe o valor pela url
+	// Recebe a escala e o valor pela url
 	valor := c.Param("val")
 	scale := c.Param("scale")
-	// Verifica e converte o valor em inteiro
+	// Verifica e converte o valor em float
 	val, err := strconv.ParseFloat(valor, 32)
 
-	fmt.Printf("chegou: %v\n", err)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "Valor deve ser numérico",
@@ -23,10 +21,12 @@ func Converte(c *gin.Context) {
 		return
 	}
 
+	// Cria as variáveis definindo o tipo
 	var cels tempconv.Celsius;
 	var fahr tempconv.Fahrenheit;
 	// var kelv tempconv.Kelvin;
 
+	// Verifica a escala atual e faz as conversões
 	switch scale {
 	case "celsius":
 		cels = tempconv.Celsius(val);
@@ -42,6 +42,7 @@ func Converte(c *gin.Context) {
 	// 	kelv = tempconv.Kelvin(val));
 	}
 	
+	// Retorna o objeto
 	c.JSON(200, gin.H{
 		"celsius": cels,
 		"fahrenheit": fahr,
