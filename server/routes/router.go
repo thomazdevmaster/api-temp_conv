@@ -11,12 +11,9 @@ import (
 func ConfigRoutes(router *gin.Engine) *gin.Engine {
 
 	// Criação das rotas
-	main := router.Group("api")
+	main := router.Group("")
 	{
-		converter := main.Group("conv")
-		{
-			converter.GET("/:scale/:val", controllers.Converte)
-		}
+		main.GET("/:scale/:val", controllers.Converte)
 	}	
 	return router
 
